@@ -24,3 +24,5 @@ Route::put('/users/{id}', [UserController::class, 'update'])->name('api.users.up
 
 // Rota DELETE para excluir um usuário pelo ID
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('api.users.destroy');
+
+
