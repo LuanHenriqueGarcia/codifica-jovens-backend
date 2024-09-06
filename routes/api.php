@@ -9,6 +9,10 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
+Route::middleware('auth:sanctum')->get('/users', function (Request $request) {
+  return User::all();
+});
+
 Route::get('/users', [UserController::class, 'index'])->name('api.users.index');
 
 Route::post('/users', [UserController::class, 'store'])->name('api.users.store');
