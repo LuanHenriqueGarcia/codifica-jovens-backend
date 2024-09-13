@@ -72,14 +72,15 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Usuário deletado']); // Retorna mensagem de sucesso
     }
-
+ 
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
         
         if (Auth::attempt($credentials)) {
+
             /** @var \App\Models\User $user **/
-            
+
             $user = Auth::user();
 
             $token = $user->createToken('LaravelAuthApp');
@@ -91,4 +92,7 @@ class UserController extends Controller
             return response()->json(['message' => 'Credenciais inválidas'], Response::HTTP_UNAUTHORIZED);
         }
     }
+
+
+
 }

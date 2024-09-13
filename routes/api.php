@@ -4,19 +4,30 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController; 
 
 
 
-Route::post('/contacts', [ContactController::class, 'store']);
+
+Route::middleware('auth:sanctum')->group(function() {
+  Route::get('/posts', [PostController::class, 'index']);
+  Route::post('/posts', [PostController::class, 'store']);
+  Route::get('/posts/{id}', [PostController::class, 'show']);
+  
+  Route::post('/posts/{id}/comments', [CommentController::class, 'store']);
+});
+
 
 Route::get('/user', function (Request $request) {
   return $request->user();
 })->middleware('auth:sanctum');
 
-
 Route::middleware('auth:sanctum')->get('/users', function (Request $request) {
   return User::all();
 });
+
+Route::post('/contacts', [ContactController::class, 'store']);
 
 Route::get('/users', [UserController::class, 'index'])->name('api.users.index');
 
