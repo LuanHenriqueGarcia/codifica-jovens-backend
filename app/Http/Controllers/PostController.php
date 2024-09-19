@@ -17,7 +17,7 @@ class PostController extends Controller
         $post = Post::create([
             'user_id' => auth()->id(),
             'title' => $request->title,
-            'body' => $request->body,
+            'body' => $request->body
         ]);
         return response()->json($post);
     }

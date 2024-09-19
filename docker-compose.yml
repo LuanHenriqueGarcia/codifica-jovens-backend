@@ -1,47 +1,50 @@
-version: '3.8'
+version: "3.7"
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      APP_NAME: Laravel
-      APP_ENV: local
-      APP_KEY: base64:CpyZZyCN4VB4IK/YYQhXreDKhPME5cZVNYuLtay/wGA=
-      APP_DEBUG: 'true'
-      APP_TIMEZONE: UTC
-      APP_URL: http://localhost
-      DB_CONNECTION: mysql
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_DATABASE: codifica_jovens
-      DB_USERNAME: root
-      DB_PASSWORD: root
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-    volumes:
-      - .:/var/www/html
-    ports:
-      - "8000:80"
-    depends_on:
-      - db
-      - redis
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        env_file:
+            - .env
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        networks:
+            - laravel
+        command: >
+             sh -c "composer install &&
+             php artisan key:generate &&
+             php artisan migrate --force &&
+             php-fpm"
 
-  db:
-    image: mysql:8.0
-    environment:
-      MYSQL_DATABASE: codifica_jovens
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - db_data:/var/lib/mysql
-    ports:
-      - "3306:3306"
+    nginx:
+        image: nginx:alpine
+        restart: unless-stopped
+        ports:
+            - "8000:80"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/:/etc/nginx/conf.d/
+        networks:
+            - laravel
 
-  redis:
-    image: redis:alpine
-    ports:
-      - "6379:6379"
+    db:
+        image: mysql:5.7.22
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+        volumes:
+            - ./.docker/mysql/dbdata:/var/lib/mysql
+        ports:
+            - "3388:3306"
+        networks:
+            - laravel
 
-volumes:
-  db_data:
+networks:
+    laravel:
+        driver: bridge
