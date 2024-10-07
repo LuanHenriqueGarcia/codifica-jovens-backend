@@ -15,10 +15,10 @@ Route::middleware('auth:sanctum')->group(function() {
   
   Route::post('/posts/{id}/comments', [CommentController::class, 'store']);
 });
-Route::get('/user', function (Request $request) {
+  Route::get('/user', function (Request $request) {
   return $request->user();
 })->middleware('auth:sanctum');
-Route::middleware('auth:sanctum')->get('/users', function (Request $request) {
+  Route::middleware('auth:sanctum')->get('/users', function (Request $request) {
   return User::all();
 });
 
