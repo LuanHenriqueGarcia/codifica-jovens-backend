@@ -34,3 +34,9 @@ Route::get('/users/{id}', [UserController::class, 'show'])->name('api.users.show
 Route::put('/users/{id}', [UserController::class, 'update'])->name('api.users.update');
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('api.users.destroy');
   
+
+Route::get('/users', [UserController::class, 'index']);
+Route::post('/users', [UserController::class, 'store']);
+Route::get('/users/{id}', [UserController::class, 'show']);
+Route::put('/users/{id}', [UserController::class, 'update']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
