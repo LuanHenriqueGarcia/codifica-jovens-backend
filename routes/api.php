@@ -15,9 +15,11 @@ Route::middleware('auth:sanctum')->group(function() {
   
   Route::post('/posts/{id}/comments', [CommentController::class, 'store']);
 });
+
   Route::get('/user', function (Request $request) {
   return $request->user();
 })->middleware('auth:sanctum');
+
   Route::middleware('auth:sanctum')->get('/users', function (Request $request) {
   return User::all();
 });
@@ -34,9 +36,3 @@ Route::get('/users/{id}', [UserController::class, 'show'])->name('api.users.show
 Route::put('/users/{id}', [UserController::class, 'update'])->name('api.users.update');
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('api.users.destroy');
   
-
-Route::get('/users', [UserController::class, 'index']);
-Route::post('/users', [UserController::class, 'store']);
-Route::get('/users/{id}', [UserController::class, 'show']);
-Route::put('/users/{id}', [UserController::class, 'update']);
-Route::delete('/users/{id}', [UserController::class, 'destroy']);

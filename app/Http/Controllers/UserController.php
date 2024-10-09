@@ -21,7 +21,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         // Cria um novo usuário
-        $user = User::create([
+        $user = User::create(attributes: [
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),

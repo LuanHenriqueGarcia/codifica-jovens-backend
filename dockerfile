@@ -40,4 +40,4 @@ WORKDIR /var/www
 COPY docker/php/custom.ini /usr/local/etc/php/conf.d/custom.ini
 
 # Define o usuário padrão para todas as execuções no container.
-USER $user
+USER $user  
