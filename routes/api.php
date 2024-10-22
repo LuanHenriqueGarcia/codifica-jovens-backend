@@ -12,7 +12,6 @@ Route::middleware('auth:sanctum')->group(function() {
   Route::get('/posts', [PostController::class, 'index']);
   Route::post('/posts', [PostController::class, 'store']);
   Route::get('/posts/{id}', [PostController::class, 'show']);
-  
   Route::post('/posts/{id}/comments', [CommentController::class, 'store']);
 });
 
